@@ -344,7 +344,7 @@ export function ClothLogo({
   segments = 30,
   speed = 1,
   wind = 1,
-  sheen = 0.2,
+  sheen = 0.1,
   metal = 0.5,
   foldDepth = 0.025,
   tilt = 0,
