@@ -1,0 +1,167 @@
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Regular.woff') format('woff'),url('/fonts/SpaceMono-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Bold.woff') format('woff'),url('/fonts/SpaceMono-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-BoldItalic.ttf') format('truetype');font-weight:700;font-style:italic;font-display:swap}
+:root{
+  --void:#000;--chalk:#fff;--fog:#e5e7eb;--ash:#c4c4c4;--graphite:#757575;--carbon:#454545;--cinder:#1a1a1a;--ember:#ff4d00;
+  --font:'Space Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+/* themed scrollbar: a thin square track in the page black; a grey thumb that turns ember on hover and while dragged */
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--void);border-left:1px solid var(--cinder)}
+::-webkit-scrollbar-thumb{background:var(--carbon);border:3px solid var(--void);border-radius:0;min-height:56px;transition:background .2s}
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background:var(--ember)}
+::-webkit-scrollbar-corner{background:var(--void)}
+@supports (-moz-appearance:none){html{scrollbar-width:thin;scrollbar-color:var(--carbon) var(--void)}}
+*,*::before,*::after{box-sizing:border-box;border-radius:0;margin:0}
+body{background:var(--void);color:var(--chalk);font-family:var(--font);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+section{margin-top:128px}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:10;background:transparent;padding-top:env(safe-area-inset-top,0px)}
+nav .in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;padding:0 24px}
+.logo{font-weight:600;font-size:16px;letter-spacing:-.02em}
+.links{display:flex;gap:24px;font-size:13px;font-weight:500}
+.links a{color:var(--chalk);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:1px;text-underline-offset:6px;transition:text-decoration-color .25s}
+.links a.on{text-decoration-color:var(--chalk)}
+.links sup{color:var(--chalk);font-size:12px;font-weight:400;margin-left:2px}
+.btn{display:inline-block;background:transparent;color:var(--chalk);border:1px solid var(--fog);font:500 13px var(--font);padding:4px 8px;cursor:pointer}
+.btn:hover{background:var(--cinder)}
+.btn.lg{font-size:15px;padding:12px 16px}
+nav .r{justify-self:end}
+
+/* type */
+.display{font-weight:600;font-size:clamp(44px,9.6vw,87px);line-height:.89;letter-spacing:-.04em}
+.h-lg{font-weight:600;font-size:clamp(30px,4.4vw,38px);line-height:1;letter-spacing:-.03em}
+.h{font-weight:600;font-size:24px;line-height:1.07;letter-spacing:-.02em}
+.label{color:var(--graphite);font-size:13px;margin-bottom:16px}
+.body{color:var(--ash);max-width:350px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--void);min-height:100vh;min-height:100svh;display:grid;grid-template-columns:1fr 1fr;margin-top:0}
+.pane{position:relative;z-index:1;overflow:hidden;min-height:100svh;background:transparent}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+/* sits over the gradient, under the text: a soft dark pool behind the paragraph so the grain doesn't fight small text */
+.shade::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(ellipse 62% 30% at 30% 73%,rgba(0,0,0,.62),rgba(0,0,0,.35) 55%,transparent 100%)}
+.copy{z-index:2;position:absolute;left:0;right:0;top:5%;bottom:-5%;padding:24px 24px 24px calc(24px + 5%);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.copy .display{font-size:clamp(44px,6.6vw,87px);line-height:.96}
+.copy .body{max-width:460px;margin-top:32px;color:var(--chalk);color:#f2f2f2;text-shadow:0 1px 14px rgba(0,0,0,.7)}
+.copy .actions{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin-top:48px}
+.copy .scroll{margin-top:0;text-align:left;display:inline-flex;align-items:center;gap:12px;padding:12px 18px;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.25);transition:background .25s,color .25s,border-color .25s}
+.copy .scroll:hover,.copy .scroll:focus-visible{background:#fff;color:#000;border-color:#fff}
+.copy .touch{display:inline-flex;align-items:center;gap:12px;padding:12px 18px;font-size:15px;text-align:left;background:#fff;color:#000;border:1px solid #fff;transition:background .25s,color .25s,border-color .25s}
+.copy .touch:hover,.copy .touch:focus-visible{background:rgba(0,0,0,.25);color:#fff;border-color:rgba(255,255,255,.55)}
+.touch .arrow-r{display:inline-block;transition:transform .25s}
+.touch:hover .arrow-r,.touch:focus-visible .arrow-r{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.touch .arrow-r{transition:none}}
+.scroll .arrow{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateY(-2px)}50%{transform:translateY(4px)}}
+@media(prefers-reduced-motion:reduce){.scroll .arrow{animation:none}}
+.mark{position:relative;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:72px 24px}
+.figure{width:min(83%,650px)}
+.figure .camera{width:100%;
+  /* white camera with black outlines: solid white shapes, every edge and crease line black (lo = the faintest detail lines, a touch softer) */
+  --hairline-plate:#ffffff;--hairline-hi:#000000;--hairline-edge:#000000;--hairline-mid:#000000;--hairline-lo:#3a3a3a}
+.mark img{width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);mask-composite:intersect}
+.cloth{position:relative;width:100%}
+.cloth canvas{display:block}
+/* still photo shown straight away; the WebGL cloth fades in over it once it is running */
+.mark .cloth-poster{position:absolute;inset:0;width:100%;height:100%;-webkit-mask-image:none;mask-image:none;transition:opacity .7s ease;pointer-events:none;user-select:none}
+.mark .cloth-poster.off{opacity:0}
+.mark .cloth-poster.masked{position:static;-webkit-mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);mask-composite:intersect}
+/* hero gradient is loaded after first paint and fades in */
+.gl-fade{position:absolute;inset:0;animation:glfade 1.6s ease both}
+@keyframes glfade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.gl-fade{animation:none}.mark .cloth-poster{transition:none}}
+/* hero proof points: the block is centred under the tripod; each stat is a two-column grid (number | label) so every label starts on the same x */
+.proof{margin-top:calc(12px + 8%);display:grid;grid-template-columns:repeat(2,max-content);justify-content:center;gap:4px 32px;font-size:15px;line-height:1.5;text-align:left}
+.proof>div{display:grid;grid-template-columns:4ch auto;column-gap:.8ch;align-items:baseline;padding:0;border:0}
+.proof>div>b,.proof>div>span{display:block;font:inherit;letter-spacing:0;margin:0}
+.proof>div>b{font-weight:700;color:#e8e8e8}
+.proof>div>span{font-weight:400;color:#a8a8a8}
+.mark .cap{position:absolute;right:24px;bottom:24px;color:#9a9a9a;font-size:12px}
+.scroll{display:block;font-size:15px}
+
+/* logos */
+.logos{display:grid;grid-template-columns:repeat(8,1fr);margin-top:24px;border-top:1px solid var(--carbon)}
+.logos div{border-right:1px solid var(--carbon);border-bottom:1px solid var(--carbon);height:88px;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:15px;letter-spacing:-.02em}
+
+/* features */
+.head{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end;margin-bottom:64px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--carbon)}
+.cell{border-right:1px solid var(--carbon);border-bottom:1px solid var(--carbon);padding:16px;min-height:280px;display:flex;flex-direction:column;justify-content:space-between;gap:48px}
+.cell .n{color:var(--graphite);font-size:12px}
+.cell p{color:var(--ash);margin-top:8px;font-size:15px}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat b{display:block;font-weight:600;font-size:clamp(44px,7vw,76px);line-height:.9;letter-spacing:-.04em}
+.stat span{color:var(--graphite);font-size:13px;display:block;margin-top:12px}
+
+/* steps */
+.step{display:grid;grid-template-columns:80px 1fr 1fr;gap:24px;padding:24px 0;border-top:1px solid var(--carbon)}
+.step:last-child{border-bottom:1px solid var(--carbon)}
+.step .n{color:var(--graphite);font-size:13px}
+.step p{color:var(--ash)}
+
+/* cta */
+.cta .display{max-width:1000px}
+form{display:flex;gap:8px;margin-top:40px;max-width:460px}
+input{flex:1;min-width:0;background:var(--cinder);border:1px solid var(--cinder);color:var(--chalk);font:400 15px var(--font);padding:12px 8px;outline:none}
+input::placeholder{color:var(--graphite)}
+input:focus{border-color:var(--carbon)}
+
+footer{margin-top:128px;border-top:1px solid var(--carbon);padding:24px 0 32px;font-size:13px;color:var(--graphite)}
+footer .in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer .in div{display:flex;gap:24px}
+footer a:hover{color:var(--chalk)}
+
+/* motion */
+/* text roll: letters slide up and out while a copy rolls in from below (hover / keyboard focus) */
+.line{display:block}
+.roll{position:relative;display:inline-block;vertical-align:top;overflow:hidden;white-space:nowrap;cursor:default}
+a .roll{cursor:pointer}
+.roll .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.roll-a{display:block}
+.roll-b{position:absolute;inset:0;display:block}
+.roll .l{display:inline-block;transition:transform .3s cubic-bezier(.42,0,.58,1)}
+.roll-b .l{transform:translateY(100%)}
+.roll:hover .roll-a .l,a:focus-visible .roll .roll-a .l{transform:translateY(-100%)}
+.roll:hover .roll-b .l,a:focus-visible .roll .roll-b .l{transform:none}
+@media(prefers-reduced-motion:reduce){.roll-b{display:none}.roll .l{transition:none;transform:none!important}}
+
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes zoom{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.rise{opacity:0;animation:rise .9s cubic-bezier(.2,.7,.2,1) var(--d,0s) forwards}
+.rise.zoom{animation-name:zoom;animation-duration:1.2s}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+.reveal.in-view{opacity:1;transform:none}
+.cell,.stat,.step,.logos div{transition:background .3s}
+.cell:hover{background:var(--cinder)}
+@media(prefers-reduced-motion:reduce){.rise,.reveal{animation:none;opacity:1;transform:none;transition:none}}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .pane{min-height:80svh}
+  .mark{min-height:60svh}
+  .figure{width:min(86%,441px)}
+
+  .links{display:none}
+  nav .in{grid-template-columns:1fr auto}
+  .logos{grid-template-columns:repeat(4,1fr)}
+  .grid,.stats{grid-template-columns:repeat(2,1fr)}
+  .head{grid-template-columns:1fr;margin-bottom:40px}
+  .step{grid-template-columns:40px 1fr}
+  .step p{grid-column:2}
+  section{margin-top:96px}
+}
+@media(max-width:520px){
+  .grid{grid-template-columns:1fr}
+  .cell{min-height:200px}
+  form{flex-direction:column}
+}
