@@ -1,0 +1,249 @@
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Space Mono';src:url('/fonts/SpaceMono-BoldItalic.ttf') format('truetype');font-weight:700;font-style:italic;font-display:swap}
+:root{
+  --void:#000;--chalk:#fff;--fog:#e5e7eb;--ash:#d4d4d4;--graphite:#a0a0a0;--carbon:#454545;--cinder:#1a1a1a;--ember:#ff4d00;
+  --font:'Space Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+/* keeps the scrollbar's space reserved so locking scroll during the red wipe doesn't shift the layout */
+html{scrollbar-gutter:stable}
+html.wipe-lock{overflow:hidden}
+/* themed scrollbar: a thin square track in the page black; a grey thumb that turns ember on hover and while dragged */
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:var(--void);border-left:1px solid var(--cinder)}
+::-webkit-scrollbar-thumb{background:var(--carbon);border:3px solid var(--void);border-radius:0;min-height:56px;transition:background .2s}
+::-webkit-scrollbar-thumb:hover,::-webkit-scrollbar-thumb:active{background:var(--ember)}
+::-webkit-scrollbar-corner{background:var(--void)}
+@supports (-moz-appearance:none){html{scrollbar-width:thin;scrollbar-color:var(--carbon) var(--void)}}
+*,*::before,*::after{box-sizing:border-box;border-radius:0;margin:0}
+body{background:var(--void);color:var(--chalk);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+/* Space Mono stays for headings, labels, numbers and buttons; reading text is set in Inter */
+.display,.h-lg,.h,.label,.logo,.links,.btn,input,.stat b,.stat span,.sector .n,.sector .for,.tags li,.go,.touch,.scroll,.proof,.cap,.av,.pn,.stars,footer,.wipe,.mobile-menu,.review .meta,.review figcaption b{font-family:var(--font)}
+/* visible keyboard focus everywhere */
+:focus-visible{outline:2px solid var(--chalk);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+section.wrap{margin-top:clamp(96px,11vw,150px)}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:10;background:transparent;padding-top:env(safe-area-inset-top,0px)}
+/* transparent over the hero; once the page scrolls it becomes a dark, blurred bar so cards never run behind the links */
+nav{transition:background-color .3s,border-color .3s,-webkit-backdrop-filter .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
+nav.scrolled{background:rgba(0,0,0,.8);border-bottom-color:var(--cinder);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(14px) saturate(1.2)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){nav.scrolled{background:rgba(0,0,0,.94)}}
+nav .in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px;padding:0 24px}
+.logo{font-weight:600;font-size:16px;letter-spacing:-.02em}
+.links{display:flex;gap:28px;font-size:14px;font-weight:500}
+.links a{color:var(--chalk);text-decoration:underline;text-decoration-color:transparent;text-decoration-thickness:1px;text-underline-offset:6px;transition:text-decoration-color .25s}
+.links a.on{text-decoration-color:var(--chalk)}
+.links sup{color:var(--chalk);font-size:12px;font-weight:400;margin-left:2px}
+.btn{display:inline-block;background:transparent;color:var(--chalk);border:1px solid var(--fog);font:500 14px var(--font);padding:9px 16px;cursor:pointer}
+.btn:hover{background:var(--cinder)}
+.btn.lg{font-size:15px;padding:12px 16px}
+nav .r{justify-self:end}
+
+/* type */
+.display{font-weight:600;font-size:clamp(44px,9.6vw,87px);line-height:.89;letter-spacing:-.04em}
+.h-lg{font-weight:600;font-size:clamp(30px,4.4vw,38px);line-height:1;letter-spacing:-.03em}
+.h{font-weight:600;font-size:24px;line-height:1.07;letter-spacing:-.02em}
+.label{color:var(--graphite);font-size:14px;margin-bottom:16px}
+.body{color:var(--ash);max-width:350px}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background:var(--void);min-height:100vh;min-height:100svh;display:grid;grid-template-columns:1fr 1fr;margin-top:0}
+.pane{position:relative;z-index:1;overflow:hidden;min-height:100svh;background:transparent}
+#gl{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+/* sits over the gradient, under the text: a soft dark pool behind the paragraph so the grain doesn't fight small text */
+.shade::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;background:
+  radial-gradient(ellipse 62% 30% at 30% 73%,rgba(0,0,0,.62),rgba(0,0,0,.35) 55%,transparent 100%)}
+.copy{z-index:2;position:absolute;left:0;right:0;top:5%;bottom:-5%;padding:24px 24px 24px calc(24px + 5%);display:flex;flex-direction:column;align-items:flex-start;justify-content:center}
+.copy .display{font-size:clamp(44px,6.6vw,87px);line-height:.96}
+.copy .body{max-width:480px;font-size:17px;margin-top:32px;color:var(--chalk);color:#f2f2f2;text-shadow:0 1px 14px rgba(0,0,0,.7)}
+.copy .actions{display:flex;flex-wrap:wrap;align-items:stretch;gap:12px;margin-top:48px}
+.copy .scroll{margin-top:0;text-align:left;display:inline-flex;align-items:center;gap:12px;padding:12px 18px;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.25);transition:background .25s,color .25s,border-color .25s}
+.copy .scroll:hover,.copy .scroll:focus-visible{background:#fff;color:#000;border-color:#fff}
+.copy .touch{display:inline-flex;align-items:center;gap:12px;padding:12px 18px;font-size:15px;text-align:left;background:#fff;color:#000;border:1px solid #fff;transition:background .25s,color .25s,border-color .25s}
+.copy .touch:hover,.copy .touch:focus-visible{background:rgba(0,0,0,.25);color:#fff;border-color:rgba(255,255,255,.55)}
+.touch .arrow-r{display:inline-block;transition:transform .25s}
+.touch:hover .arrow-r,.touch:focus-visible .arrow-r{transform:translateX(4px)}
+@media(prefers-reduced-motion:reduce){.touch .arrow-r{transition:none}}
+.scroll .arrow{display:inline-block;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateY(-2px)}50%{transform:translateY(4px)}}
+@media(prefers-reduced-motion:reduce){.scroll .arrow{animation:none}}
+.mark{position:relative;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:72px 24px}
+.figure{width:min(83%,650px)}
+.figure .camera{width:100%;
+  /* white camera with black outlines: solid white shapes, every edge and crease line black (lo = the faintest detail lines, a touch softer) */
+  --hairline-plate:#ffffff;--hairline-hi:#000000;--hairline-edge:#000000;--hairline-mid:#000000;--hairline-lo:#3a3a3a}
+.mark img{width:100%;height:auto;display:block;-webkit-mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);mask-composite:intersect}
+.cloth{position:relative;width:100%}
+.cloth canvas{display:block}
+/* still photo shown straight away; the WebGL cloth fades in over it once it is running */
+.cloth .cloth-poster{position:absolute;inset:0;width:100%;height:100%;-webkit-mask-image:none;mask-image:none;transition:opacity .7s ease;pointer-events:none;user-select:none}
+.cloth .cloth-poster.off{opacity:0}
+.cloth .cloth-poster.masked{position:static;-webkit-mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);-webkit-mask-composite:source-in;mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent),linear-gradient(to bottom,transparent,#000 4%,#000 96%,transparent);mask-composite:intersect}
+/* hero gradient is loaded after first paint and fades in */
+.gl-fade{position:absolute;inset:0;animation:glfade 1.6s ease both}
+@keyframes glfade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.gl-fade{animation:none}.cloth .cloth-poster{transition:none}}
+/* hero proof points: the block is centred under the tripod; each stat is a two-column grid (number | label) so every label starts on the same x */
+.proof{margin-top:calc(12px + 8%);display:grid;grid-template-columns:repeat(2,max-content);justify-content:center;gap:8px 36px;font-size:17px;line-height:1.5;text-align:left}
+.proof>div{display:grid;grid-template-columns:5ch auto;column-gap:.8ch;align-items:baseline;padding:0;border:0}
+.proof>div>b,.proof>div>span{display:block;font:inherit;letter-spacing:0;margin:0}
+.proof>div>b{font-weight:700;color:#fff}
+.proof>div>span{font-weight:400;color:#d0d0d0}
+.mark .cap{position:absolute;right:24px;bottom:24px;color:#b4b4b4;font-size:13px}
+.scroll{display:block;font-size:15px}
+
+/* specialisation */
+.head{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:end;margin-bottom:56px}
+.sectors{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--carbon);border-left:1px solid var(--carbon)}
+.sector{border-right:1px solid var(--carbon);border-bottom:1px solid var(--carbon);padding:24px;min-height:560px;display:flex;flex-direction:column}
+.sector .n{color:var(--graphite);font-size:14px}
+.sector{position:relative}
+.sector .h{margin-top:80px}
+/* the sector figures: white lines on the card's own black, so the plate follows the card's hover colour */
+.sector .fig{position:absolute;top:4px;right:8px;width:132px;--hairline-plate:#000;--hairline-hi:#fff;--hairline-edge:#c4c4c4;--hairline-mid:#757575;--hairline-lo:#454545;transition:--hairline-plate .3s}
+.sector:hover .fig,.sector:focus-within .fig{--hairline-plate:#FF0800;--hairline-hi:#000;--hairline-edge:#000;--hairline-mid:#000;--hairline-lo:#4a0300}
+.sector .fig svg :where(path,ellipse){transition:fill .3s,stroke .26s}
+.sector .for{color:var(--graphite);font-size:14px;margin-top:8px}
+.sector .desc{color:var(--ash);font-size:16px;margin-top:24px}
+.tags{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 40px}
+.tags li{border:1px solid var(--carbon);color:var(--ash);font-size:13px;line-height:1.5;padding:5px 10px}
+/* the call to action is pinned to the bottom of every card so the three line up whatever the copy length */
+.sector .go{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:16px;padding-top:16px;border-top:1px solid var(--carbon);font-size:14px}
+.go .arrow-r{display:inline-block;transition:transform .25s,color .25s}
+.sector:hover .go .arrow-r,.go:focus-visible .arrow-r{transform:translateX(4px)}
+.go:focus-visible{outline:1px solid var(--chalk);outline-offset:4px}
+@media(prefers-reduced-motion:reduce){.go .arrow-r{transition:none}}
+
+/* results & reviews: ruled cells like the sector cards */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--carbon);border-left:1px solid var(--carbon)}
+.stat{padding:24px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid var(--carbon);border-bottom:1px solid var(--carbon)}
+.stat b{display:block;font-weight:600;font-size:clamp(44px,7vw,76px);line-height:.9;letter-spacing:-.04em}
+.stat span{color:var(--graphite);font-size:14px;display:block;margin-top:32px}
+.reviews{display:grid;grid-template-columns:1fr 1fr;margin-top:24px;border-top:1px solid var(--carbon);border-left:1px solid var(--carbon)}
+.review{margin:0;padding:24px;display:flex;flex-direction:column;border-right:1px solid var(--carbon);border-bottom:1px solid var(--carbon)}
+.stars{color:var(--ember);font-size:20px;line-height:1;letter-spacing:.12em}
+.review blockquote{margin:24px 0 40px;color:var(--fog);font-size:16px;line-height:1.65}
+.review figcaption{margin-top:auto;display:flex;align-items:center;gap:16px;padding-top:16px;border-top:1px solid var(--carbon)}
+.av{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--carbon);color:var(--ember);font-size:13px;font-weight:700}
+.review figcaption b{display:block;font-weight:600;font-size:15px}
+.review .meta{display:block;color:var(--graphite);font-size:13px;margin-top:2px}
+
+/* about: open editorial split. No boxes: the logo sits sticky on the left, the story reads on the right, and the pillars are a numbered list divided by single hairlines */
+.about{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);column-gap:clamp(48px,8vw,128px);align-items:start}
+.story-logo{grid-column:1;grid-row:1;position:sticky;top:112px;display:flex;align-items:center;justify-content:center}
+.story-logo .cloth{width:100%;max-width:420px}
+.story{grid-column:2;grid-row:1;max-width:680px;padding:0}
+.story p{color:var(--ash);margin-top:32px;line-height:1.7}
+.story .soft{color:var(--graphite)}
+.story blockquote{margin:56px 0 0;padding:8px 0 8px 28px;border-left:2px solid var(--ember);color:var(--chalk);font-size:clamp(18px,2vw,22px);line-height:1.4;letter-spacing:-.01em}
+.pillars{margin-top:clamp(64px,7vw,100px);border-top:1px solid var(--carbon)}
+.pillar{display:grid;grid-template-columns:72px minmax(0,5fr) minmax(0,7fr);column-gap:clamp(24px,4vw,48px);align-items:baseline;padding:40px 0;border-bottom:1px solid var(--carbon)}
+.pillar .pn{color:var(--graphite);font-size:14px;transition:color .3s}
+.pillar:hover .pn,.pillar:focus-within .pn{color:var(--ember)}
+.pillar .h{font-size:clamp(20px,2.2vw,26px)}
+.pillar p{color:var(--ash);font-size:16px;line-height:1.7;margin:0;max-width:560px}
+
+/* cta */
+.cta .display{max-width:1000px}
+form{display:flex;gap:8px;margin-top:40px;max-width:460px}
+input{flex:1;min-width:0;background:var(--cinder);border:1px solid var(--cinder);color:var(--chalk);font:400 15px var(--font);padding:12px 10px}
+input::placeholder{color:#8a8a8a}
+input:focus-visible{border-color:var(--chalk);outline:2px solid var(--chalk);outline-offset:2px}
+
+footer{margin-top:clamp(96px,11vw,150px);border-top:1px solid var(--carbon);padding:24px 0 32px;font-size:14px;color:var(--graphite)}
+footer .in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}
+footer .in div{display:flex;gap:24px}
+footer a:hover{color:var(--chalk)}
+
+/* motion */
+/* text roll: letters slide up and out while a copy rolls in from below (hover / keyboard focus) */
+.line{display:block}
+.roll{position:relative;display:inline-block;vertical-align:top;overflow:hidden;white-space:nowrap;cursor:default}
+a .roll{cursor:pointer}
+.roll .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.roll-a{display:block}
+.roll-b{position:absolute;inset:0;display:block}
+.roll .l{display:inline-block;transition:transform .3s cubic-bezier(.42,0,.58,1)}
+.roll-b .l{transform:translateY(100%)}
+.roll:hover .roll-a .l,a:focus-visible .roll .roll-a .l{transform:translateY(-100%)}
+.roll:hover .roll-b .l,a:focus-visible .roll .roll-b .l{transform:none}
+@media(prefers-reduced-motion:reduce){.roll-b{display:none}.roll .l{transition:none;transform:none!important}}
+
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes zoom{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+.rise{opacity:0;animation:rise .9s cubic-bezier(.2,.7,.2,1) var(--d,0s) forwards}
+.rise.zoom{animation-name:zoom;animation-duration:1.2s}
+/* scroll motion (see motion.js) */
+:where(main){overflow-x:clip} /* cards enter from the side: never let that add a horizontal scrollbar */
+.wipe{position:fixed;inset:0;z-index:9;background:#FF0800;color:#000;display:grid;place-items:center;pointer-events:none;visibility:hidden;will-change:transform}
+.wipe-hint{display:none;position:absolute;left:0;right:0;bottom:40px;text-align:center;font-size:13px;opacity:0}
+.wipe-label{display:block;font-size:clamp(14px,1.6vw,20px);font-weight:700;letter-spacing:-.01em}
+.ln{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+.ln-i{display:block}
+.motion .ln-i{opacity:0}
+.motion :is(.sector,.stat,.review,.story,.story-logo,.pillar),.motion section>.label,.motion section .head .body,.motion section.cta form{opacity:0}
+.sector,.stat,.review{transition:background .3s,color .3s}
+.sector:hover,.sector:focus-within{background:#FF0800}
+/* on the red card everything turns black so it stays readable */
+.sector:hover,.sector:focus-within{color:#000}
+.sector:hover :is(.n,.for,.desc,.h,.go,.go *,.tags li,.arrow-r),.sector:focus-within :is(.n,.for,.desc,.h,.go,.go *,.tags li,.arrow-r){color:#000}
+.sector:hover :is(.tags li,.go),.sector:focus-within :is(.tags li,.go){border-color:#000}
+/* the same red-card hover on the results and review cards: red fill, everything on it turns black */
+:is(.stat,.review):hover,:is(.stat,.review):focus-within{background:#FF0800;color:#000}
+:is(.stat,.review):hover *,:is(.stat,.review):focus-within *{color:#000}
+:is(.stat,.review):hover :is(.av,figcaption),:is(.stat,.review):focus-within :is(.av,figcaption){border-color:#000}
+@media(prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none;transition:none}.wipe{display:none}}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .pane{min-height:80svh}
+  .mark{min-height:60svh}
+  .figure{width:min(86%,441px)}
+
+  .links{display:none}
+  nav .in{grid-template-columns:1fr auto}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .reviews{grid-template-columns:1fr}
+  .sectors{grid-template-columns:1fr;border-left:0}
+  .about{grid-template-columns:1fr;row-gap:48px}
+  .story-logo,.story{grid-column:1;grid-row:auto}
+  .story-logo{position:static;order:2}
+  .story{order:1}
+  .story-logo .cloth{max-width:300px}
+  .pillar{grid-template-columns:1fr;row-gap:12px;padding:32px 0}
+  .sector{border-right:0;min-height:0;padding:24px 0}
+  .sector .h{margin-top:48px}
+  .head{grid-template-columns:1fr;margin-bottom:40px}
+  section.wrap{margin-top:88px}
+}
+@media(max-width:520px){
+  form{flex-direction:column}
+}
+/* mobile menu */
+.burger{display:none;width:44px;height:44px;margin-left:8px;background:transparent;border:1px solid var(--fog);cursor:pointer;position:relative;padding:0}
+.burger span,.burger span::before,.burger span::after{content:'';position:absolute;left:12px;right:12px;height:2px;background:var(--chalk);transition:transform .25s,top .25s,opacity .2s}
+.burger span{top:21px}.burger span::before{left:0;right:0;top:-6px}.burger span::after{left:0;right:0;top:6px}
+nav.menu-open .burger span{background:transparent}
+nav.menu-open .burger span::before{top:0;transform:rotate(45deg)}
+nav.menu-open .burger span::after{top:0;transform:rotate(-45deg)}
+.mobile-menu{display:none}
+@media(prefers-reduced-motion:reduce){.burger span,.burger span::before,.burger span::after{transition:none}}
+@media(max-width:900px){
+  nav .r{display:flex;align-items:center}
+  .burger{display:block}
+  nav.menu-open{background:#000;-webkit-backdrop-filter:none;backdrop-filter:none;border-bottom-color:var(--cinder)}
+  .mobile-menu:not([hidden]){display:flex;flex-direction:column;padding:8px 24px 24px;border-top:1px solid var(--cinder)}
+  .mobile-menu a{padding:16px 0;font-size:18px;border-bottom:1px solid var(--cinder)}
+  .mobile-menu a[aria-current="true"]{color:var(--ember)}
+  .btn{min-height:44px;display:inline-flex;align-items:center}
+  /* phones/tablets don't load the WebGL gradient: a light static glow keeps the hero from being flat black */
+  #gl{background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(255,77,0,.28),transparent 70%),radial-gradient(ellipse 70% 50% at 85% 85%,rgba(115,191,196,.18),transparent 70%)}
+  .proof{font-size:16px}
+}
